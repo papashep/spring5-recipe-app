@@ -1,21 +1,18 @@
 package guru.springframework.controllers;
 
-import guru.springframework.domain.Category;
-import guru.springframework.domain.UnitOfMeasure;
-import guru.springframework.repositories.CategoryRepository;
-import guru.springframework.repositories.UnitOfMeasureRepository;
+import guru.springframework.services.RecipeService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Optional;
 
 /**
  * Created by Melvyn on 26/Aug/2020
  */
 
-@Controller
-public class IndexController {
-
+/*
+    // Put 'IndexController' Class.
+    // -----------------------------
+    // Demonstrating using JPA to find a record in the database.
     private CategoryRepository categoryRepository;
     private UnitOfMeasureRepository unitOfMeasureRepository;
 
@@ -23,22 +20,37 @@ public class IndexController {
         this.categoryRepository = categoryRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
     }
-
-    @RequestMapping({"", "/", "/index"})
-    public String getIndexPage(){
-
+*/
+/*
+        // Put in 'getIndexPage() method.
+        // ------------------------------
+        // Demonstrating using JPA to find a record in the database.
         Optional<Category> categoryOptional = categoryRepository.findByDescription ("American");
         Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription ("Teaspoon");
-//        System.out.println ("Cat Id is : " + categoryOptional.get ().getId ());
-//        System.out.println ("Uom Id is : " + unitOfMeasureOptional.get ().getId ());
 
+        // Returns '-1' to show nothing was found.
         System.out.println("Cat ID is: " + categoryOptional
                 .map(category -> categoryOptional.get().getId())
                 .orElse(-1L));
-
+        // Returns '-1' to show nothing was found.
         System.out.println("Uom ID is: " + unitOfMeasureOptional
                 .map(unitOfMeasure -> unitOfMeasureOptional.get().getId())
                 .orElse(-1L));
+*/
+
+@Controller
+public class IndexController {
+
+    private final RecipeService recipeService;
+
+    public IndexController(RecipeService recipeService) {
+        this.recipeService = recipeService;
+    }
+
+    @RequestMapping({"", "/", "/index"})
+    public String getIndexPage(Model model) {
+
+        model.addAttribute("recipes", recipeService.getRecipes());
 
         return "index";
     }
