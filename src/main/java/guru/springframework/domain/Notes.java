@@ -1,10 +1,15 @@
 package guru.springframework.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 
 /**
  * Created by Melvyn on 26/Aug/2020
  */
+@Data
+@EqualsAndHashCode(exclude = {"recipe"})           // Excludes the 'recipes' property from the Equals and Hash code
 @Entity
 public class Notes {
 
@@ -18,27 +23,7 @@ public class Notes {
     @Lob        // JPA will store it in a 'clob' field in the database, overcomes the 255 character limit
     private String recipeNotes;
 
-    public Long getId () {
-        return id;
+    public Notes () {
     }
 
-    public void setId (Long id) {
-        this.id = id;
-    }
-
-    public Recipe getRecipe () {
-        return recipe;
-    }
-
-    public void setRecipe (Recipe recipe) {
-        this.recipe = recipe;
-    }
-
-    public String getRecipeNotes () {
-        return recipeNotes;
-    }
-
-    public void setRecipeNotes (String recipeNotes) {
-        this.recipeNotes = recipeNotes;
-    }
 }
